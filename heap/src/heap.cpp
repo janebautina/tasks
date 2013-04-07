@@ -79,7 +79,7 @@ int Heap::deleteMinElement() {
   return minElement;
 }
 
-int main() {
+int main1() {
   Heap *heap = new Heap();
   for (int i = 0; i < heap->getArraySize(); i++) {
     int randNumber = rand() % 10 + 1;
