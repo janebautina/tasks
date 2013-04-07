@@ -13,7 +13,13 @@
 
 using namespace std;
 
-void Heap::addElement(int newElement){
+Heap::Heap() {
+  arraySize = DEFAULT_HEAP_SIZE;
+  numElements = 0;
+  heapArray = new int [arraySize];
+}
+
+void Heap::addElement(int newElement) {
   heapArray[numElements] = newElement;
   numElements++;
   int currentElement = numElements - 1;
@@ -22,8 +28,7 @@ void Heap::addElement(int newElement){
     if (parent >= 0) {
       if (heapArray[currentElement] < heapArray[parent]) {
         swap(heapArray[parent], heapArray[currentElement]);
-      }
-      else{
+      } else {
         break;
       }
     }
@@ -31,33 +36,63 @@ void Heap::addElement(int newElement){
   }
 }
 
-void Heap::printHeap(){
-  cout << endl;
+void Heap::printHeap() {
   for (int i = 0; i < numElements; i++) {
     cout << heapArray[i] << " ";
   }
   cout << endl;
 }
 
-void Heap::checkHeap(){
+void Heap::checkHeap() {
   for (int i = 0; i < numElements; i++) {
-    if (2 * i + 1 < numElements) {
-      assert(heapArray[i] <= heapArray[2 * i + 1]);
-    }
-    if (2 * i + 2 < numElements) {
-      assert(heapArray[i] <= heapArray[2 * i + 2]);
-    }
+    assert(checkHeap(i));
   }
+}
+
+bool Heap::checkHeap(int elemNumber) {
+  if((( 2 * elemNumber + 1) < numElements) && (heapArray[elemNumber] > heapArray[2 * elemNumber + 1])) {
+    return false;
+  } else if((( 2 * elemNumber + 2) < numElements) && (heapArray[elemNumber] > heapArray[2 * elemNumber + 2])) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+int Heap::deleteMinElement() {
+  int minElement = heapArray[0];
+  heapArray[0] = heapArray[numElements-1];
+  numElements--;
+  int currentElement = 0;
+  while (currentElement < numElements && !checkHeap(currentElement)) {
+      int minDescendant = -1;
+      if(( 2 * currentElement + 1) < numElements) {
+        minDescendant =  2 * currentElement + 1;
+      }
+      if((( 2 * currentElement + 2) < numElements) && ((minDescendant == -1) ||
+          (heapArray[minDescendant] > heapArray[2 * currentElement + 2]))) {
+        minDescendant = 2 * currentElement + 2;
+      }
+      swap(heapArray[minDescendant], heapArray[currentElement]);
+      currentElement = minDescendant;
+  }
+  return minElement;
 }
 
 int main() {
   Heap *heap = new Heap();
   for (int i = 0; i < heap->getArraySize(); i++) {
-    int randNumber = rand()%10 + 1;
+    int randNumber = rand() % 10 + 1;
     heap->addElement(randNumber);
   }
   heap->checkHeap();
   heap->printHeap();
+  while(!heap->isEmpty()){
+    cout << heap->deleteMinElement() <<" ";
+    heap->checkHeap();
+  }
+  cout << endl;
+  delete heap;
   return 0;
 }
 
