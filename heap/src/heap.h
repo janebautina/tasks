@@ -14,12 +14,13 @@ private:
 	int *heapArray;
 	int numElements;
 public:
-	int getArraySize(){return arraySize;}
-	void setArraySize(int newSize){arraySize = newSize;}
-	Heap(){arraySize = DEFAULT_HEAP_SIZE;numElements = 0; heapArray = new int [arraySize]; }
-	virtual ~Heap(){delete []heapArray;}
+	int getArraySize() {return arraySize;}
+	void setArraySize(int newSize) {arraySize = newSize;}
+	Heap() {arraySize = DEFAULT_HEAP_SIZE; numElements = 0; heapArray = new int [arraySize]; }
+	virtual ~Heap() {delete []heapArray;}
 	void addElement(int newElem);
 	void printHeap();
+	void checkHeap();
 };
 
 

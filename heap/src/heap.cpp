@@ -1,48 +1,63 @@
 //============================================================================
 // Name        : heap.cpp
 // Author      : Evgeniya Bautina
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Version     : 04/06/2013
+// Copyright   :
+// Description : Class Heap Implementation
 //============================================================================
 
 #include <iostream>
 #include <stdlib.h>
+#include <assert.h>
 #include "heap.h"
 
 using namespace std;
 
 void Heap::addElement(int newElement){
-	heapArray[numElements] = newElement;
-	numElements++;
-	int temp = numElements-1;
-	while(temp>0){
-		int parent = (temp-1)/2;
-		if(parent>=0){
-			if(heapArray[temp]<heapArray[parent]){
-				swap(heapArray[parent], heapArray[temp]);
-			}
-			else{
-				break;
-			}
-		}
-		temp = parent;
-	}
+  heapArray[numElements] = newElement;
+  numElements++;
+  int currentElement = numElements - 1;
+  while (currentElement > 0) {
+    int parent = (currentElement - 1) / 2;
+    if (parent >= 0) {
+      if (heapArray[currentElement] < heapArray[parent]) {
+        swap(heapArray[parent], heapArray[currentElement]);
+      }
+      else{
+        break;
+      }
+    }
+    currentElement = parent;
+  }
 }
 
 void Heap::printHeap(){
-	for (int i=0;i<arraySize;i++){
-		cout<<endl;
-		cout<<heapArray[i]<<endl;
-		cout<<endl;
-	}
+  cout << endl;
+  for (int i = 0; i < numElements; i++) {
+    cout << heapArray[i] << " ";
+  }
+  cout << endl;
 }
+
+void Heap::checkHeap(){
+  for (int i = 0; i < numElements; i++) {
+    if (2 * i + 1 < numElements) {
+      assert(heapArray[i] <= heapArray[2 * i + 1]);
+    }
+    if (2 * i + 2 < numElements) {
+      assert(heapArray[i] <= heapArray[2 * i + 2]);
+    }
+  }
+}
+
 int main() {
-	Heap *heap = new Heap();
-	for(int i=0;i<10;i++){
-		heap->addElement(10*i);
-	}
-	heap->printHeap();
-	return 0;
+  Heap *heap = new Heap();
+  for (int i = 0; i < heap->getArraySize(); i++) {
+    int randNumber = rand()%10 + 1;
+    heap->addElement(randNumber);
+  }
+  heap->checkHeap();
+  heap->printHeap();
+  return 0;
 }
 
