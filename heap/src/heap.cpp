@@ -60,11 +60,12 @@ bool Heap::checkHeap(int elemNumber) {
 }
 
 int Heap::deleteMinElement() {
-  int minElement = heapArray[0];
-  heapArray[0] = heapArray[numElements-1];
-  numElements--;
-  int currentElement = 0;
-  while (currentElement < numElements && !checkHeap(currentElement)) {
+  if(!isEmpty()){
+    int minElement = heapArray[0];
+    heapArray[0] = heapArray[numElements-1];
+    numElements--;
+    int currentElement = 0;
+    while (currentElement < numElements && !checkHeap(currentElement)) {
       int minDescendant = -1;
       if(( 2 * currentElement + 1) < numElements) {
         minDescendant =  2 * currentElement + 1;
@@ -75,8 +76,11 @@ int Heap::deleteMinElement() {
       }
       swap(heapArray[minDescendant], heapArray[currentElement]);
       currentElement = minDescendant;
+    }
+    return minElement;
+  } else {
+    throw "The heap is empty!";
   }
-  return minElement;
 }
 
 int main1() {
