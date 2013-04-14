@@ -7,23 +7,25 @@
 
 #ifndef HEAP_H_
 #define HEAP_H_
+
 const int DEFAULT_HEAP_SIZE = 10;
+template <class T>
 class Heap{
 private:
 	int arraySize;
-	int *heapArray;
+	T *heapArray;
 	int numElements;
 
 public:
 	int getArraySize() { return arraySize; }
 	Heap();
 	virtual ~Heap() { delete [] heapArray; }
-	void addElement(int newElem);
+	void addElement(const T& newElem);
 	void printHeap();
 	void checkHeap();
 	bool checkHeap(int elemNumber);
-	int deleteMinElement();
-	bool isEmpty() {return numElements == 0;}
+	T deleteMinElement();
+	bool isEmpty() { return numElements == 0; }
 };
 
 

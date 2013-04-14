@@ -13,13 +13,13 @@
 
 using namespace std;
 
-Heap::Heap() {
+template <class T> Heap<T>::Heap() {
   arraySize = DEFAULT_HEAP_SIZE;
   numElements = 0;
-  heapArray = new int [arraySize];
+  heapArray = new T [arraySize];
 }
 
-void Heap::addElement(int newElement) {
+template <class T> void Heap<T>::addElement(const T& newElement) {
   heapArray[numElements] = newElement;
   numElements++;
   int currentElement = numElements - 1;
@@ -36,20 +36,20 @@ void Heap::addElement(int newElement) {
   }
 }
 
-void Heap::printHeap() {
+template <class T> void Heap<T>::printHeap() {
   for (int i = 0; i < numElements; i++) {
     cout << heapArray[i] << " ";
   }
   cout << endl;
 }
 
-void Heap::checkHeap() {
+template <class T> void Heap<T>::checkHeap() {
   for (int i = 0; i < numElements; i++) {
     assert(checkHeap(i));
   }
 }
 
-bool Heap::checkHeap(int elemNumber) {
+template <class T> bool Heap<T>::checkHeap(int elemNumber) {
   if((( 2 * elemNumber + 1) < numElements) && (heapArray[elemNumber] > heapArray[2 * elemNumber + 1])) {
     return false;
   } else if((( 2 * elemNumber + 2) < numElements) && (heapArray[elemNumber] > heapArray[2 * elemNumber + 2])) {
@@ -59,19 +59,19 @@ bool Heap::checkHeap(int elemNumber) {
   }
 }
 
-int Heap::deleteMinElement() {
+template <class T> T Heap<T>::deleteMinElement() {
   if(!isEmpty()){
-    int minElement = heapArray[0];
+    T minElement = heapArray[0];
     heapArray[0] = heapArray[numElements-1];
     numElements--;
     int currentElement = 0;
     while (currentElement < numElements && !checkHeap(currentElement)) {
       int minDescendant = -1;
-      if(( 2 * currentElement + 1) < numElements) {
-        minDescendant =  2 * currentElement + 1;
+      if (2 * currentElement + 1 < numElements) {
+        minDescendant = 2 * currentElement + 1;
       }
-      if((( 2 * currentElement + 2) < numElements) && ((minDescendant == -1) ||
-          (heapArray[minDescendant] > heapArray[2 * currentElement + 2]))) {
+      if (2 * currentElement + 2 < numElements && (minDescendant == -1 ||
+          heapArray[minDescendant] > heapArray[2 * currentElement + 2])) {
         minDescendant = 2 * currentElement + 2;
       }
       swap(heapArray[minDescendant], heapArray[currentElement]);
@@ -84,7 +84,7 @@ int Heap::deleteMinElement() {
 }
 
 int main1() {
-  Heap *heap = new Heap();
+  Heap<int> *heap = new Heap<int>();
   for (int i = 0; i < heap->getArraySize(); i++) {
     int randNumber = rand() % 10 + 1;
     heap->addElement(randNumber);
@@ -92,7 +92,7 @@ int main1() {
   heap->checkHeap();
   heap->printHeap();
   while(!heap->isEmpty()){
-    cout << heap->deleteMinElement() <<" ";
+    cout << heap->deleteMinElement() << " ";
     heap->checkHeap();
   }
   cout << endl;
