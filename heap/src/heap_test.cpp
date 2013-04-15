@@ -27,14 +27,14 @@ BOOST_AUTO_TEST_CASE(deleteMinElement) {
   heap.addElement(1);
   heap.addElement(2);
   heap.addElement(104);
-  BOOST_REQUIRE(heap.deleteMinElement() == 1);
-  BOOST_REQUIRE(heap.deleteMinElement() == 2);
-  BOOST_REQUIRE(heap.deleteMinElement() == 104);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 1);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 2);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 104);
   try {
     heap.deleteMinElement();
     BOOST_FAIL("Should throw exception!");
   } catch(exception const& ex) {
-    BOOST_TEST_MESSAGE(ex.what());
+    BOOST_CHECK_EQUAL(string(ex.what()), "The heap is empty!");
   }
 }
 
@@ -52,5 +52,18 @@ BOOST_AUTO_TEST_CASE(testWithStrings) {
   heap.printHeap();
 }
 
+BOOST_AUTO_TEST_CASE(addElement) {
+  Heap<int> heap;
+  heap.addElement(1);
+  heap.addElement(2);
+  heap.addElement(104);
+  heap.addElement(1342);
+  heap.addElement(1345);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 1);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 2);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(), 104);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(),1342);
+  BOOST_CHECK_EQUAL(heap.deleteMinElement(),1345);
+}
 
 BOOST_AUTO_TEST_SUITE_END()

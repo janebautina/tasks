@@ -11,7 +11,7 @@
 #include <iostream>
 #include <algorithm>
 
-const int DEFAULT_HEAP_SIZE = 10;
+const int DEFAULT_HEAP_SIZE = 3;
 
 class HeapEmptyException:public std::exception{
 public:
@@ -48,8 +48,21 @@ template <class T> Heap<T>::Heap() {
 }
 
 template <class T> void Heap<T>::addElement(const T& newElement) {
+  if(numElements<arraySize) {
   heapArray[numElements] = newElement;
   numElements++;
+  } else{
+    T* newArray = new T[2*arraySize];
+    for(int i = 0; i < arraySize; i++) {
+      newArray[i] = heapArray[i];
+    }
+    arraySize *= 2;
+    delete [] heapArray;
+    heapArray = newArray;
+    newArray[numElements] = newElement;
+    numElements++;
+
+  }
   int currentElement = numElements - 1;
   while (currentElement > 0) {
     int parent = (currentElement - 1) / 2;
