@@ -9,8 +9,18 @@
 #define HEAP_H_
 
 #include <iostream>
+#include <algorithm>
 
 const int DEFAULT_HEAP_SIZE = 10;
+
+class HeapEmptyException:public std::exception{
+public:
+  virtual const char* what() const throw() {
+    return "The heap is empty!";
+  }
+  virtual ~HeapEmptyException() throw() {}
+};
+
 template <class T>
 class Heap{
 private:
@@ -78,7 +88,6 @@ template <class T> bool Heap<T>::checkHeap(int elemNumber) {
 }
 
 template <class T> T Heap<T>::deleteMinElement() {
-  std::cerr<<"numElements"<<numElements<<std::endl;
   if(!isEmpty()){
     T minElement = heapArray[0];
     heapArray[0] = heapArray[numElements-1];
@@ -98,7 +107,7 @@ template <class T> T Heap<T>::deleteMinElement() {
     }
     return minElement;
   } else {
-    throw "The heap is empty!";
+    throw HeapEmptyException();
   }
 }
 

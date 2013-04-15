@@ -2,7 +2,6 @@
 #define BOOST_TEST_MAIN
 #define BOOST_TEST_LOG_LEVEL message
 
-
 #include <boost/test/unit_test.hpp>
 #include <string>
 #include "heap.h"
@@ -28,11 +27,8 @@ BOOST_AUTO_TEST_CASE(deleteMinElement) {
   heap.addElement(1);
   heap.addElement(2);
   heap.addElement(104);
-  cerr << "deleting" << endl;
   BOOST_REQUIRE(heap.deleteMinElement() == 1);
-  cerr << "deleting" << endl;
   BOOST_REQUIRE(heap.deleteMinElement() == 2);
-  cerr << "deleting" << endl;
   BOOST_REQUIRE(heap.deleteMinElement() == 104);
   try {
     heap.deleteMinElement();
